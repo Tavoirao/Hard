@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Produto</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="create-product-container">
+        <h1>Criar Produto</h1>
+        <form id="productForm">
+            <input type="text" id="productName" placeholder="Nome do Produto" required>
+            <select id="productSize" required>
+                <option value="" disabled selected>Polegada</option>
+                <option value="6">6</option>
+                <option value="8">8</option>
+                <option value="10">10</option>
+                <option value="12">12</option>
+                <option value="15">15</option>
+                <option value="18">18</option>
+                <option value="Driver">Driver</option>
+                <option value="Tweeter">Tweeter</option>
+            </select>
+            <select id="productImpedance" required>
+                <option value="" disabled selected>Impedância (ohms)</option>
+                <option value="2">2 ohms</option>
+                <option value="4">4 ohms</option>
+                <option value="8">8 ohms</option>
+            </select>
+            <button type="submit">Salvar Produto</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('productForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const productName = document.getElementById('productName').value;
+            const productSize = document.getElementById('productSize').value;
+            const productImpedance = document.getElementById('productImpedance').value;
+
+            fetch('/criar-produto', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ productName, productSize, productImpedance })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Produto criado com sucesso!');
+                    window.location.href = '/dashboard'; // Voltar ao painel do administrador
+                } else {
+                    alert('Erro ao criar o produto: ' + data.message);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

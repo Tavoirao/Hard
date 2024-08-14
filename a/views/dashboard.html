@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Administrador</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .admin-container {
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: red;
+            color: white;
+            font-size: 2em;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            width: 80%;
+            margin-bottom: 20px;
+        }
+
+        button:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <h1>Bem-vindo, Administrador HP</h1>
+        <button onclick="window.location.href='/create-product'">Criar Produto</button>
+        <button onclick="window.location.href='/remove-product'">Remover Produto</button>
+    </div>
+</body>
+</html>

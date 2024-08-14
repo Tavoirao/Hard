@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remover Produto</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="remove-product-container">
+        <h1>Remover Produto</h1>
+        <form id="removeProductForm">
+            <select id="productList" required>
+                <option value="" disabled selected>Selecione o Produto</option>
+                <!-- Os produtos serão carregados dinamicamente via JavaScript -->
+            </select>
+            <button type="submit">Remover Produto</button>
+        </form>
+    </div>
+    <script>
+        // Carregar produtos ao abrir a página
+        window.onload = function() {
+            fetch('/listar-produtos')
+            .then(response => response.json())
+            .then(data => {
+                const productList = document.getElementById('productList');
+                data.products.forEach(product => {
+                    const option = document.createElement('option');
+                    option.value = product.id;  // Assume que cada produto tem um ID único
+                    option.textContent = `${product.name} - ${product.size} - ${product.impedance} ohms`;
+                    productList.appendChild(option);
+                });
+            });
+        };
+
+        document.getElementById('removeProductForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const productId = document.getElementById('productList').value;
+
+            fetch('/remover-produto', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ productId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Produto removido com sucesso!');
+                    window.location.href = '/dashboard'; // Voltar ao painel do administrador
+                } else {
+                    alert('Erro ao remover o produto: ' + data.message);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
